@@ -91,7 +91,7 @@ Two buckets: **A. Traditional NAS surveys** (NAS methodology — foundational, b
 |------|-------|-------|-------|------|
 | 2021 | KBS | **AutoML: A Survey of the State-of-the-Art** (He, Zhao, Chu) | AutoML across the full ML pipeline with heavy NAS emphasis; CIFAR/ImageNet NAS summary. | [arXiv](https://arxiv.org/abs/1908.00709) |
 | 2024 | Springer AIR | **Automated Machine Learning: past, present and future** (Baratchi et al.) | Recent go-to AutoML overview built on Web-of-Science data; HPO, NAS, meta-learning. | [Springer](https://link.springer.com/article/10.1007/s10462-024-10726-1) |
-| 2021 | JAIR | **Benchmark and Survey of Automated Machine Learning Frameworks** (Zöller & Huber) | AutoML methods survey + empirical benchmark of 14 frameworks on 137 datasets. | [JAIR](https://www.jair.org/index.php/jair/article/view/11854) · [arXiv](https://arxiv.org/abs/1904.12054) |
+| 2021 | JAIR | **Benchmark and Survey of Automated Machine Learning Frameworks** (Zöller & Huber) | AutoML methods survey + empirical benchmark of 14 frameworks on 137 datasets. | [arXiv](https://arxiv.org/abs/1904.12054) |
 | 2019 | Springer book | **Automated Machine Learning: Methods, Systems, Challenges** (Hutter, Kotthoff, Vanschoren, eds.) | First comprehensive AutoML book; Ch. 3 is an extended version of the Elsken survey. | [Springer](https://link.springer.com/book/10.1007/978-3-030-05318-5) |
 
 #### Strategy-specific (RL / Evolutionary / Differentiable / Training-free)
