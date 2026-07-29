@@ -28,6 +28,8 @@ jobs:
             --retry-wait-time 8
             --timeout 30
             --accept 200,202,206,301,302,308,403,429
+            # ScienceDirect/Elsevier blocks bots with 400; links are valid for humans
+            --exclude 'sciencedirect\.com'
             'README.md' 'CONTRIBUTING.md'
           fail: true
 
