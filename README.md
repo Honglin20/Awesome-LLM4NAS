@@ -8,7 +8,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
-[![Papers](https://img.shields.io/badge/Papers-85+-blue.svg)](#-table-of-contents)
+[![Papers](https://img.shields.io/badge/Papers-110+-blue.svg)](#-table-of-contents)
 
 The field sits on **two complementary axes** that are constantly confused. This repo keeps them deliberately separate:
 
@@ -35,6 +35,7 @@ Each entry lists **Year · Venue · Paper · Method · What it does · Hardware-
 | ④ | **Knowledge / Advisor** | transfers human design knowledge to prune or shape the search space |
 | ⑤ | **End-to-End Agentic** | autonomously orchestrates the whole AutoML pipeline |
 | ⑥ | **Constraint-Aware** | optimizes under hardware / fairness / resource budgets |
+| ⑦ | **× Classical NAS Algorithm** | *cross-cutting* — pairs the LLM with a supernet / evolutionary / predictor / RL NAS ([dedicated section](#-llm--classical-nas-algorithms)) |
 
 **Part II — NAS4LLM** (organized by *what is being searched*):
 
@@ -52,6 +53,7 @@ Each entry lists **Year · Venue · Paper · Method · What it does · Hardware-
   - [④ Design Knowledge Transfer / Advisor](#-design-knowledge-transfer--advisor)
   - [⑤ End-to-End Agentic](#-end-to-end-agentic)
   - [⑥ Constraint-Aware (Hardware / Fairness)](#-constraint-aware-hardware--fairness)
+  - [⑦ LLM × Classical NAS Algorithms](#-llm--classical-nas-algorithms)
   - [Cross-Domain / Modality-Specific](#cross-domain--modality-specific)
 - **Part II — NAS4LLM (LLM as the search target)**
   - [Structured Pruning as Search](#structured-pruning-as-search)
@@ -68,16 +70,68 @@ Each entry lists **Year · Venue · Paper · Method · What it does · Hardware-
 
 ## Surveys & Position Papers
 
+Two buckets: **A. Traditional NAS surveys** (NAS methodology — foundational, broad, strategy-specific, domain-specific) and **B. LLM × NAS surveys** (LLM as the searcher, or NAS for LLMs). Where two links are given, the first is the canonical published version.
+
+### A. Traditional NAS surveys
+
+#### Foundational & broad
+
 | Year | Venue | Paper | Focus | Link |
 |------|-------|-------|-------|------|
-| 2025 | ACM | **Large Language Models for Constructing and Optimizing Neural Architectures** (Gu et al.) | The most on-point survey; taxonomy of generation-based vs. prediction-based LLM-NAS. | [arXiv](https://arxiv.org/abs/2411.10478) |
-| 2026 | ACM Comp. Surveys | **A Systematic Survey on LLMs for Algorithm Design (LLM4AD)** (Liu et al.) | **Best LLM4NAS skeleton:** dedicated NAS §5.2.2 + a clean 4-role taxonomy (Optimizer / Predictor / Extractor / Designer). | [arXiv](https://arxiv.org/abs/2410.14716) |
-| 2026 | Springer AI Review | **Neural Architecture Search from a Natural Language Perspective** | Connects NAS taxonomy with natural-language-driven design. | [Springer](https://link.springer.com/article/10.1007/s10462-026-11550-5) |
-| 2021 | IJCAI | **Hardware-Aware NAS: Survey and Taxonomy** (Benmezoline et al.) | Canonical HW-NAS taxonomy — methodological backbone for all ⑥-class work. | [arXiv](https://arxiv.org/abs/2101.09336) |
-| 2023 | — | **Neural Architecture Search: Insights from 1000 Papers** (White et al.) | Broad NAS survey used as a taxonomic anchor. | [arXiv](https://arxiv.org/abs/2301.08727) |
-| 2025 | — | **Evolutionary Computation in the Era of Large Language Models** (Wu) | Survey of LLM × evolutionary optimization (covers LLMatic-style work). | [PDF](https://ira.lib.polyu.edu.hk/bitstream/10397/113668/1/Wu_Evolutionary_Computation_Era.pdf) |
-| 2024 | — | **Advances in Neural Architecture Search** (Wang et al., Tsinghua) | Broad NAS advances incl. the LLM-driven strand. | [PDF](https://mn.cs.tsinghua.edu.cn/xinwang/PDF/papers/2024_Advances%20in%20Neural%20Architecture%20Search.pdf) |
-| 2023 | — | **AutoML in the Age of Large Language Models: Challenges, Opportunities and Risks** (Tornede et al.) | Position paper framing NAS-for-LLM search-space & evaluation-cost challenges. | [arXiv](https://arxiv.org/abs/2306.08107) |
+| 2019 | JMLR | **Neural Architecture Search: A Survey** (Elsken, Metzen, Hutter) | *The* canonical NAS survey; the search-space / search-strategy / performance-estimation taxonomy every later survey reuses. Start here. | [JMLR](https://jmlr.org/papers/v20/18-598.html) · [arXiv](https://arxiv.org/abs/1808.05377) |
+| 2021 | ACM CSUR | **A Comprehensive Survey of Neural Architecture Search: Challenges and Solutions** (Ren et al.) | Reframes NAS as challenges → solutions; the most-cited broad NAS survey after Elsken. | [DOI](https://dl.acm.org/doi/10.1145/3447582) · [arXiv](https://arxiv.org/abs/2006.02903) |
+| 2023 | — | **Neural Architecture Search: Insights from 1000 Papers** (White et al.) | Most comprehensive modern synthesis of 1000+ post-2020 NAS papers; taxonomic anchor. | [arXiv](https://arxiv.org/abs/2301.08727) |
+| 2019 | arXiv | **A Survey on Neural Architecture Search** (Wistuba, Rawat, Pedapati) | Early unifying formalism; the "third classic" alongside Elsken & Ren. | [arXiv](https://arxiv.org/abs/1905.01392) |
+| 2024 | Nat. Sci. Review | **Advances in Neural Architecture Search** (Xin Wang & Wenwu Zhu, Tsinghua) | Recent high-level advances incl. GNN-NAS, HW-NAS, training-free, and LLM-driven strands. No arXiv version. | [OUP](https://academic.oup.com/nsr/article/11/8/nwae282/7740455) · [PDF](https://mn.cs.tsinghua.edu.cn/xinwang/PDF/papers/2024_Advances%20in%20Neural%20Architecture%20Search.pdf) |
+| 2025 | Springer AIR | **Systematic review on neural architecture search** (Avval et al.) | PRISMA-style SLR of 160 NAS papers (2017–2023) along search-space / search-strategy / validation pillars; covers edge/IoT NAS. | [Springer](https://link.springer.com/article/10.1007/s10462-024-11058-w) |
+
+#### AutoML broader (HPO + NAS)
+
+| Year | Venue | Paper | Focus | Link |
+|------|-------|-------|-------|------|
+| 2021 | KBS | **AutoML: A Survey of the State-of-the-Art** (He, Zhao, Chu) | AutoML across the full ML pipeline with heavy NAS emphasis; CIFAR/ImageNet NAS summary. | [arXiv](https://arxiv.org/abs/1908.00709) |
+| 2024 | Springer AIR | **Automated Machine Learning: past, present and future** (Baratchi et al.) | Recent go-to AutoML overview built on Web-of-Science data; HPO, NAS, meta-learning. | [Springer](https://link.springer.com/article/10.1007/s10462-024-10726-1) |
+| 2021 | JAIR | **Benchmark and Survey of Automated Machine Learning Frameworks** (Zöller & Huber) | AutoML methods survey + empirical benchmark of 14 frameworks on 137 datasets. | [JAIR](https://www.jair.org/index.php/jair/article/view/11854) · [arXiv](https://arxiv.org/abs/1904.12054) |
+| 2019 | Springer book | **Automated Machine Learning: Methods, Systems, Challenges** (Hutter, Kotthoff, Vanschoren, eds.) | First comprehensive AutoML book; Ch. 3 is an extended version of the Elsken survey. | [Springer](https://link.springer.com/book/10.1007/978-3-030-05318-5) |
+
+#### Strategy-specific (RL / Evolutionary / Differentiable / Training-free)
+
+| Year | Venue | Paper | Focus | Link |
+|------|-------|-------|-------|------|
+| 2023 | IEEE TNNLS | **A Survey on Evolutionary Neural Architecture Search** (Liu et al.) | 200+ EC-based NAS papers; canonical entry point for GA/ES-based NAS. | [arXiv](https://arxiv.org/abs/2008.10937) |
+| 2024 | ACM CSUR | **Efficient Automation of Neural Network Design: A Survey on Differentiable NAS** (Heuillet et al.) | DARTS/DNAS survey with a challenge-based taxonomy; the canonical differentiable-NAS review. | [DOI](https://dl.acm.org/doi/10.1145/3665138) · [arXiv](https://arxiv.org/abs/2304.05405) |
+| 2024 | arXiv | **A Survey on Neural Architecture Search Based on Reinforcement Learning** (Shao) | RL-as-search-strategy NAS survey. | [arXiv](https://arxiv.org/abs/2409.18163) |
+| 2023 | IEEE TAI | **Efficient Evaluation Methods for Neural Architecture Search: A Survey** (Song et al.) | Weight-sharing, learning-curve extrapolation, and zero-cost proxy evaluation. | [arXiv](https://arxiv.org/abs/2301.05919) |
+| 2023 | arXiv | **Zero-Shot NAS: Challenges, Solutions, and Opportunities** (Li et al.) | Training-free / zero-shot NAS methods incl. hardware-aware proxies. | [arXiv](https://arxiv.org/abs/2307.01998) |
+
+#### Domain-specific (Transformer / Hardware / CV / Graph / Medical)
+
+| Year | Venue | Paper | Focus | Link |
+|------|-------|-------|-------|------|
+| 2022 | IEEE Access | **Neural Architecture Search for Transformers: A Survey** (Chitty-Venkata et al.) | ~50 NAS methods on Transformers across NLP/CV/speech — the bridge from NAS to LLM territory. | [IEEE](https://ieeexplore.ieee.org/document/9913476/) |
+| 2021 | IJCAI | **Hardware-Aware NAS: Survey and Taxonomy** (Benmezoline et al.) | First dedicated HW-NAS survey; canonical taxonomy for all ⑥-class work. | [arXiv](https://arxiv.org/abs/2101.09336) |
+| 2022 | ACM CSUR | **Neural Architecture Search Survey: A Hardware Perspective** (Chitty-Venkata & Somani) | HW-NAS across platforms (MCU/CPU/GPU/ASIC/FPGA/ReRAM/DSP); complement to Benmezoline. | [DOI](https://dl.acm.org/doi/10.1145/3524500) |
+| 2021 | IEEE Access | **Neural Architecture Search and Hardware Accelerator Co-Search: A Survey** (Sekanina) | Joint NAS + hardware-accelerator co-design survey. | [IEEE](https://ieeexplore.ieee.org/document/9606893/) |
+| 2024 | IJCAI | **Medical Neural Architecture Search: Survey and Taxonomy** (Benmezoline et al.) | MedNAS for medical images and EEG. | [IJCAI](https://www.ijcai.org/proceedings/2024/878) |
+| 2023 | MDPI Sensors | **NAS Survey: A Computer Vision Perspective** (Kang et al.) | NAS for CV, incl. dense-prediction tasks (segmentation, super-resolution). | [MDPI](https://www.mdpi.com/1424-8220/23/3/1713) |
+| 2024 | Pattern Recognition | **NAS: A Contemporary Literature Review for Computer Vision Applications** (Poyser & Breckon) | Post-2020 CV-NAS review (classification / detection / segmentation). | [ScienceDirect](https://www.sciencedirect.com/science/article/pii/S0031320323007495) |
+| 2022 | Tsinghua Sci. Tech. | **Graph Neural Architecture Search: A Survey** (Oloulade et al.) | GNN-NAS survey covering RL and evolutionary GraphNAS strategies. | [SciOpen](https://www.sciopen.com/article/10.26599/TST.2021.9010057) |
+| 2023 | IEEE Access | **Neural Architecture Search Benchmarks: Insights and Survey** (Chitty-Venkata et al.) | Dedicated NAS-benchmark survey (NAS-Bench-101/201/301, NDS, …). | [IEEE](https://ieeexplore.ieee.org/document/10063950/) |
+
+### B. LLM × NAS surveys
+
+| Year | Venue | Paper | Focus | Link |
+|------|-------|-------|-------|------|
+| 2024 | ACM CSUR | **Large Language Models for Constructing and Optimizing Machine Learning Workflows: A Survey** (Gu et al.) | The most on-point LLM-AutoML survey; NAS is a dedicated section (covers GENIUS, LLMatic, AutoML-GPT). *Actual title ends "...Machine Learning Workflows", not "Neural Architectures".* | [arXiv](https://arxiv.org/abs/2411.10478) · [DOI](https://dl.acm.org/doi/10.1145/3773084) |
+| 2024 | ACM CSUR | **A Systematic Survey on LLMs for Algorithm Design (LLM4AD)** (Liu et al.) | **Best LLM4NAS skeleton:** dedicated NAS § + a clean 4-role taxonomy (Optimizer / Predictor / Extractor / Designer). | [arXiv](https://arxiv.org/abs/2410.14716) · [DOI](https://dl.acm.org/doi/10.1145/3787585) |
+| 2026 | Springer AIR | **Neural Architecture Search from a Natural Language Processing Perspective: A Survey** (Yan, Mo, Tan) | Task-oriented survey of NAS *for* NLP models (classification / sequence modeling / IE). **This is NAS4LLM-adjacent, not an LLM-as-NAS-optimizer survey.** | [Springer](https://link.springer.com/article/10.1007/s10462-026-11550-5) |
+| 2023 | arXiv | **AutoML in the Age of Large Language Models: Challenges, Opportunities and Risks** (Tornede et al.) | Foundational position paper framing AutoML↔LLM incl. NAS-for-LLM search-space & evaluation-cost challenges. | [arXiv](https://arxiv.org/abs/2306.08107) |
+| 2024 | IEEE TEVC | **Evolutionary Computation in the Era of Large Language Models: Survey and Roadmap** (Wu et al.) | LLM as EC search operator / generator / optimizer — directly relevant to evolutionary NAS (LLMatic-style work). | [arXiv](https://arxiv.org/abs/2401.10034) · [IEEE](https://doi.org/10.1109/TEVC.2024.3506731) |
+| 2025 | Springer AIR | **A Survey on Large Language Models Driven Meta-Optimizers** (Zheng et al.) | LLMs as meta-optimizers across combinatorial optimization and search; strong overlap with LLM-as-NAS-optimizer. | [Springer](https://link.springer.com/article/10.1007/s10462-025-11470-w) |
+| 2025 | EMNLP | **From Automation to Autonomy: A Survey on LLMs in Scientific Discovery** (Zheng et al.) | LLM-driven autonomous research incl. architecture/model design; umbrella for LLM-as-research-agent claims that overlap NAS. | [arXiv](https://arxiv.org/abs/2505.13259) |
+| 2024 | ACM CSUR | **A Survey on Large Language Models for Code Generation** (Jiang et al.) | LLM code-generation taxonomy — relevant background for the ① Direct Code Generation NAS bucket. | [arXiv](https://arxiv.org/abs/2406.00515) · [DOI](https://dl.acm.org/doi/10.1145/3747588) |
+
+> **Gap note:** as of mid-2026 there is *no* peer-reviewed survey whose sole subject is "LLM as NAS optimizer." The closest approximations are Gu et al. (one NAS section inside a broader ML-workflow survey), LLM4AD, and the EC-LLM survey above. Method papers in this repo's Part I are the current primary sources.
 
 ---
 
@@ -153,6 +207,30 @@ Each entry lists **Year · Venue · Paper · Method · What it does · Hardware-
 | 2026 | arXiv | [UH-NAS: LLM-Guided NAS for Robust Co-Design of Physical Neural Networks](https://arxiv.org/abs/2606.10294) | ⑥+② | LLM co-optimizes efficiency and robustness for unconventional hardware (photonic / in-memory) under non-idealities; NSGA-II loop. | ✓ Physical/unconventional hardware; energy & non-ideality aware. | — |
 | 2025 | EMNLP Findings | [MONAQ: Multi-Objective NAS Querying for Time-Series on Resource-Constrained Devices](https://arxiv.org/abs/2505.10607) | ⑥ | LLM-driven multi-objective querying for efficient time-series model design on constrained devices. | ✓ Resource-constrained deployment. | — |
 | 2025 | arXiv | [Controlled Generation of Image-Captioning Models Under Strict Constraints](https://arxiv.org/abs/2512.14706) | ⑥+① | Extends "LLM-as-designer" to strictly resource/parameter-constrained captioning-model generation. | ✓ Strict resource/parameter budget. | — |
+
+## ⑦ LLM × Classical NAS Algorithms
+
+*A cross-cutting lens: works that **pair an LLM with a classical NAS algorithm** rather than letting the LLM run NAS alone. Most also appear under ①–⑥ by LLM role; they are regrouped here by the **classical algorithm they build on**, with the LLM's specific role called out.*
+
+> **Open directions (no work yet):** combining an LLM with **differentiable / DARTS-style** NAS, an **RL controller** (Zoph & Le style), or **progressive NAS**. The LLM usually *replaces* these rather than partnering with them.
+
+| Year | Venue | Paper | + Classical NAS | LLM's role | HW | Code |
+|------|-------|-------|-----------------|------------|----|------|
+| 2025 | npj Digital Med. | [Pathology-NAS](https://www.nature.com/articles/s41746-025-02042-x) | **Weight-sharing supernet** | GPT-4 drives one-shot subnet search over a pretrained supernet (ShuffleNet/U-Net/ViT) for WSI classifiers | ✓ FLOPs budget | — |
+| 2026 | CVPR-W | [CoLLM-NAS](https://arxiv.org/abs/2509.26037) | **Supernet (OFA / SPOS / AutoFormer)** | Navigator-LLM (direction) + Generator-LLM (candidates) boost two-stage supernet NAS; 4–10× lower search cost | — | — |
+| 2026 | arXiv | [AdaVFM: Adaptive Vision Foundation Models for Edge](https://arxiv.org/abs/2604.15622) | **Supernet (runtime subnet)** *(borderline)* | LLM picks a subnet from a language-aligned VFM supernet at inference, only on scene change | ✓ Edge deployment | — |
+| 2024 | BDMA | [GPT-NAS](https://arxiv.org/abs/2305.05351) | **Evolutionary** | GPT proposes plausible components as priors that shrink the EA search space (~12% gain) | — | — |
+| 2026 | ESWA | [DR-LLM-ENAS](https://www.sciencedirect.com/science/article/abs/pii/S0957417426019317) | **Evolutionary** | Dual LLM: generator (mutation/crossover) + evaluator (fitness), on NAS-Bench-201 | — | [✓](https://github.com/baigeixiaowang/DR-LLM-NAS) |
+| 2026 | Inf. Sciences | [LLM-Assisted Evolutionary NAS](https://www.sciencedirect.com/science/article/pii/S0020025526000411) | **Evolutionary + surrogate** | LLM replaces the ML surrogate as the EA fitness predictor | — | — |
+| 2026 | IEEE | [LLMENAS: Evolutionary NAS via LLM Guidance](https://ieeexplore.ieee.org/document/11421471/) | **Hierarchical evolutionary** | LLM supplies upper-level trajectory-aware fitness to escape local optima | — | — |
+| 2025 | SSRN | [Multi-Objective NAS Framework Powered by LLMs](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5297900) | **Multi-objective evolutionary** | LLM-driven proposals hybridized with a multi-objective EA *(preprint)* | — | — |
+| 2024 | ACL Findings | [LLM Performance Predictors (LLM-PP)](https://arxiv.org/abs/2310.16712) | **Predictor-based** | LLM repurposed as an accuracy predictor to warm-start NAS | ✓ Latency/GFLOPs/size | [✓](https://github.com/UBC-NLP/llmas) |
+| 2025 | ICML | [RZ-NAS](https://openreview.net/forum?id=9UExQpH078) | **Zero-cost proxy** | LLM "reflects" on zero-cost proxy signals and proposes fixes | — | [✓](https://github.com/PasaLab/RZ-NAS) |
+| 2025 | NeurIPS | [Automatic Proxy Discovery (APD)](https://openreview.net/forum?id=3naHyE5klE) | **Zero-cost proxy** | LLM (actor-critic RL over prompts) *discovers the proxy formula itself* | — | — |
+| 2024 | IEEE DoCES | [LLMO](https://arxiv.org/abs/2406.05433) | **Surrogate / predictor** | LLM as a fitness surrogate for adversarial-robustness NAS | — | [✓](https://github.com/RuiZhong961230/LLMO) |
+| 2025 | AAAI | [LAPT](https://arxiv.org/abs/2408.11330) | **Search-space construction** | LLM extracts design principles to prune the search space before NAS runs | — | [✓](https://github.com/milkmilk511/LAPT) |
+| 2026 | arXiv | [AgentNAS](https://arxiv.org/abs/2607.07984) | **Combinatorial NAS** | LLM emits a "slotted" seed architecture that defines the search space for combinatorial NAS | — | [✓](https://github.com/alroimfebruary/AgentNAS) |
+| 2023 | arXiv | [GENIUS](https://arxiv.org/abs/2304.10970) | **NAS-Bench query** | GPT-4 as a black-box optimizer over NAS-Bench (bench accuracy as fitness) | — | [✓](https://github.com/mingkai-zheng/GENIUS) |
 
 ## Cross-Domain / Modality-Specific
 *LLM-driven NAS applied beyond standard CNN/image classification.*
