@@ -1,0 +1,40 @@
+name: Link Check
+
+on:
+  schedule:
+    # Weekly, Monday ~06:37 UTC (off the :00 mark)
+    - cron: '37 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Lychee link checker
+        id: lychee
+        uses: lycheeverse/lychee-action@v2
+        with:
+          # arxiv / openreview / aclanthology can be flaky → retry + tolerate
+          args: >-
+            --no-progress
+            --max-concurrency 4
+            --max-retries 4
+            --retry-wait-time 8
+            --timeout 30
+            --accept 200,206,301,302,308,403,429
+            'README.md' 'CONTRIBUTING.md'
+          fail: true
+
+      - name: Open an issue on broken links
+        if: ${{ failure() }}
+        uses: peter-evans/create-issue-from-file@v5
+        with:
+          title: '🔗 Broken links detected in README'
+          content-filepath: ./lychee/out.md
+          labels: broken-link,maintenance

@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300" font-family="'Segoe UI', Helvetica, Arial, sans-serif" role="img" aria-label="Awesome LLM4NAS and NAS4LLM">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b1020"/>
+      <stop offset="55%" stop-color="#1e1b4b"/>
+      <stop offset="100%" stop-color="#3b0764"/>
+    </linearGradient>
+    <linearGradient id="acc" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#22d3ee"/>
+      <stop offset="50%" stop-color="#818cf8"/>
+      <stop offset="100%" stop-color="#e879f9"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="300" fill="url(#bg)"/>
+
+  <!-- neural network motif (right side) -->
+  <g stroke="#22d3ee" stroke-width="1" opacity="0.35" fill="none">
+    <line x1="830" y1="110" x2="940" y2="80"/>
+    <line x1="830" y1="110" x2="940" y2="150"/>
+    <line x1="830" y1="110" x2="940" y2="220"/>
+    <line x1="830" y1="190" x2="940" y2="80"/>
+    <line x1="830" y1="190" x2="940" y2="150"/>
+    <line x1="830" y1="190" x2="940" y2="220"/>
+    <line x1="940" y1="80"  x2="1060" y2="70"/>
+    <line x1="940" y1="80"  x2="1060" y2="150"/>
+    <line x1="940" y1="80"  x2="1060" y2="230"/>
+    <line x1="940" y1="150" x2="1060" y2="70"/>
+    <line x1="940" y1="150" x2="1060" y2="150"/>
+    <line x1="940" y1="150" x2="1060" y2="230"/>
+    <line x1="940" y1="220" x2="1060" y2="70"/>
+    <line x1="940" y1="220" x2="1060" y2="150"/>
+    <line x1="940" y1="220" x2="1060" y2="230"/>
+    <line x1="1060" y1="70"  x2="1150" y2="115"/>
+    <line x1="1060" y1="70"  x2="1150" y2="185"/>
+    <line x1="1060" y1="150" x2="1150" y2="115"/>
+    <line x1="1060" y1="150" x2="1150" y2="185"/>
+    <line x1="1060" y1="230" x2="1150" y2="115"/>
+    <line x1="1060" y1="230" x2="1150" y2="185"/>
+  </g>
+  <g fill="#67e8f9" opacity="0.85">
+    <circle cx="830" cy="110" r="6"/>
+    <circle cx="830" cy="190" r="6"/>
+    <circle cx="940" cy="80" r="6"/>
+    <circle cx="940" cy="150" r="6"/>
+    <circle cx="940" cy="220" r="6"/>
+    <circle cx="1060" cy="70" r="6"/>
+    <circle cx="1060" cy="150" r="6"/>
+    <circle cx="1060" cy="230" r="6"/>
+    <circle cx="1150" cy="115" r="7" fill="#e879f9"/>
+    <circle cx="1150" cy="185" r="7" fill="#e879f9"/>
+  </g>
+
+  <!-- title block -->
+  <text x="64" y="132" font-size="60" font-weight="700" fill="#ffffff">Awesome LLM4NAS &amp; NAS4LLM</text>
+  <text x="66" y="178" font-size="26" fill="#cbd5e1">LLM as the searcher  ·  LLM as the search target</text>
+  <rect x="66" y="200" width="220" height="7" rx="3.5" fill="url(#acc)"/>
+  <text x="66" y="248" font-size="20" fill="#94a3b8">Neural Architecture Search × Large Language Models</text>
+</svg>

@@ -1,5 +1,9 @@
 # 🧠 Awesome LLM4NAS & NAS4LLM
 
+<p align="center">
+  <img src="assets/banner.svg" alt="Awesome LLM4NAS & NAS4LLM banner" width="100%">
+</p>
+
 > A curated, actively-maintained list of papers on **Large Language Models × Neural Architecture Search** — the intersection of *"using LLMs to design model architectures"* and *"searching the architecture of LLMs themselves."*
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
